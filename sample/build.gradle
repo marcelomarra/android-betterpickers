@@ -77,7 +77,6 @@ dependencies {
     compile('joda-time:joda-time:2.2')
 }
 
-apply plugin: 'artifactory'
 apply plugin: 'android-maven'
 
 configurations {
