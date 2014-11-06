@@ -1,0 +1,61 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'android-library'
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+android {
+    compileSdkVersion 21
+    buildToolsVersion "20.0.0"
+    defaultConfig {
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        applicationId "com.doomonafireball.betterpickers"
+        minSdkVersion 14
+        targetSdkVersion 21
+        if (currentVersion != null) {
+            def parts = currentVersion.replace('-SNAPSHOT', '').split('\\.');
+            if (parts.length > 0) {
+                versionMajor = parts[0] as Integer;
+            }
+            if (parts.length > 1) {
+                versionMinor = parts[1] as Integer;
+            }
+            if (parts.length > 2) {
+                versionPatch = parts[2] as Integer;
+            }
+            if (parts.length > 3) {
+                versionBuild = parts[3] as Integer
+            }
+        }
+        versionCode versionMajor * 100000 + versionMinor * 10000 + versionPatch * 10 + versionBuild
+        versionName currentVersion
+        println versionName + '-' + versionCode
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'BuildConfig'
+        exclude 'BuildConfig.class'
+    }
+    lintOptions {
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+}
+dependencies{
+    compile(group: 'com.android.support', name: 'support-v4', version: '19.1.0')
+    compile('com.nineoldandroids:library:2.4.0')
+}

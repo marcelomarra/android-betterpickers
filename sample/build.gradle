@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'maven-publish'
+apply plugin: 'android-maven'
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+android {
+    compileSdkVersion 21
+    buildToolsVersion "20.0.0"
+    defaultConfig {
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        applicationId "br.com.izie.app"
+        minSdkVersion 14
+        targetSdkVersion 21
+        if (currentVersion != null) {
+            def parts = currentVersion.replace('-SNAPSHOT', '').split('\\.');
+            if (parts.length > 0) {
+                versionMajor = parts[0] as Integer;
+            }
+            if (parts.length > 1) {
+                versionMinor = parts[1] as Integer;
+            }
+            if (parts.length > 2) {
+                versionPatch = parts[2] as Integer;
+            }
+            if (parts.length > 3) {
+                versionBuild = parts[3] as Integer
+            }
+        }
+        versionCode versionMajor * 100000 + versionMinor * 10000 + versionPatch * 10 + versionBuild
+        versionName currentVersion
+        println versionName + '-' + versionCode
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+    buildTypes {
+        debug {
+            runProguard false
+            zipAlign false
+            versionNameSuffix = "-DEV"
+        }
+    }
+    dexOptions {
+        jumboMode = true
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+    lintOptions {
+        abortOnError false
+        quiet false
+        lintConfig file("lint.xml")
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'BuildConfig'
+        exclude 'BuildConfig.class'
+    }
+}
+dependencies {
+    compile project(':library')
+    compile('com.actionbarsherlock:actionbarsherlock:4.4.0@aar')
+    compile('joda-time:joda-time:2.2')
+}
+
+apply plugin: 'artifactory'
+apply plugin: 'android-maven'
+
+configurations {
+    published
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        packaging 'aar'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}

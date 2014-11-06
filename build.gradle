@@ -1,0 +1,73 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'artifactory'
+def repo = '';
+if(currentVersion.contains("SNAPSHOT")){
+    repo = 'libs-snapshot-local'
+}else{
+    repo = 'libs-release-local'
+}
+
+def globalVersion = new Version(currentVersion)
+
+// Define the artifacts coordinates
+group = 'br.com.izie.app'
+version = globalVersion
+status = version.status
+
+
+class Version {
+    String thisVersion
+    String status
+
+    Version(String versionValue) {
+        thisVersion = versionValue
+        if (thisVersion.endsWith('-SNAPSHOT')) {
+            status = 'integration'
+        } else {
+            status = 'release'
+        }
+    }
+
+    String toString() {
+        thisVersion
+    }
+}
+buildscript {
+    repositories {
+        maven {
+            url "${central_url}/libs-release"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.14.0'
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.2.4')
+        classpath 'com.github.dcendents:android-maven-plugin:1.0'
+    }
+}
+
+allprojects {
+    group = 'com.doomonafireball.betterpickers'
+    version = globalVersion
+    status = version.status
+    repositories {
+        maven {
+            url "${central_url}/libs-release"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+
+        maven {
+            url "${central_url}/libs-snapshot"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+}
