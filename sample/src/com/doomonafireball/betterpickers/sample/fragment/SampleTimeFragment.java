@@ -1,6 +1,6 @@
 package com.doomonafireball.betterpickers.sample.fragment;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import android.support.v4.app.Fragment;
 import com.doomonafireball.betterpickers.sample.R;
 import com.doomonafireball.betterpickers.timepicker.TimePickerBuilder;
 import com.doomonafireball.betterpickers.timepicker.TimePickerDialogFragment;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 /**
  * User: derek Date: 4/30/13 Time: 7:43 PM
  */
-public class SampleTimeFragment extends SherlockFragment
+public class SampleTimeFragment extends Fragment
         implements TimePickerDialogFragment.TimePickerDialogHandler {
 
     private TextView text;

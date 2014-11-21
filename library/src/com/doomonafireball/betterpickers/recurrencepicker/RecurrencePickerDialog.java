@@ -19,8 +19,6 @@ package com.doomonafireball.betterpickers.recurrencepicker;
 import com.doomonafireball.betterpickers.R;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 
-import org.jraf.android.backport.switchwidget.Switch;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -57,6 +55,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;

@@ -8,10 +8,10 @@ def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 android {
     compileSdkVersion 21
-    buildToolsVersion "20.0.0"
+    buildToolsVersion "21.1.1"
     defaultConfig {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-        applicationId "br.com.izie.app"
+        applicationId "com.doomonafireball.betterpickers"
         minSdkVersion 14
         targetSdkVersion 21
         if (currentVersion != null) {
@@ -73,7 +73,6 @@ android {
 }
 dependencies {
     compile project(':library')
-    compile('com.actionbarsherlock:actionbarsherlock:4.4.0@aar')
     compile('joda-time:joda-time:2.2')
 }
 

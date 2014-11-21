@@ -6,7 +6,7 @@ def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 android {
     compileSdkVersion 21
-    buildToolsVersion "20.0.0"
+    buildToolsVersion "21.1.1"
     defaultConfig {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         applicationId "com.doomonafireball.betterpickers"
@@ -58,4 +58,17 @@ android {
 dependencies{
     compile(group: 'com.android.support', name: 'support-v4', version: '19.1.0')
     compile('com.nineoldandroids:library:2.4.0')
+    compile 'com.android.support:appcompat-v7:21.0.2'
+}
+
+apply plugin: 'android-maven'
+
+configurations {
+    published
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        packaging 'aar'
+    }
 }
